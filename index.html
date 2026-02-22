@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Undangan Pernikahan - Nadia & Fadly</title>
+    <title>Undangan Pernikahan - Wira & Dina</title>
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
     <style>
         /* Pengaturan Dasar */
@@ -156,7 +156,7 @@
         <div class="polaroid" style="margin-bottom: 30px;">
             <img src="https://via.placeholder.com/300x300/a3c4bc/ffffff?text=Foto+Cover" alt="Cover Photo">
         </div>
-        <h1>Nadia & Fadly</h1>
+        <h1>Wira & Dina</h1>
         <p>Kepada Yth.<br>Bapak/Ibu/Saudara/i</p>
         <button class="btn-open" onclick="bukaUndangan()">Open Invitation</button>
     </div>
@@ -173,24 +173,24 @@
             <div class="polaroid right">
                 <img src="https://via.placeholder.com/300x400/ffb6b9/ffffff?text=Foto+Nadia" alt="Bride">
             </div>
-            <h3>Nadia Fitri Zafira</h3>
-            <p>Putri dari Bpk. Setiyo Nugroho & Ibu Dian Farida</p>
+            <h3>Dina Yuliarty</h3>
+            <p>Putri dari Bpk. R. Sugiarto & Ibu Lasmiati</p>
 
             <div class="polaroid">
                 <img src="https://via.placeholder.com/300x400/81b29a/ffffff?text=Foto+Fadly" alt="Groom">
             </div>
-            <h3>M. Fadly Hidayat</h3>
-            <p>Putra dari Bpk. Ilyas Hidayat & Ibu Hamidah</p>
+            <h3>Wirahilman</h3>
+            <p>Putra dari Bpk. Ferry Djohansyah P. & Ibu Ratnasari Sulistiani</p>
         </div>
 
         <div class="section">
             <h2>Save the date!</h2>
             <div class="info-box">
-                <h3>20 / 09 / 2025</h3>
-                <p>10.00 - 13.00 WIB</p>
-                <p><strong>Open Gate: 09.30 WIB</strong></p>
+                <h3>26 / 12 / 2026</h3>
+                <p>09.00 - 13.00 WIB</p>
+                <p><strong>Open Gate: 08.30 WIB</strong></p>
                 <hr style="border:0; border-top:1px solid #ccc; margin: 15px 0;">
-                <p><strong>Layar Resto</strong><br>Manyar Sabrangan</p>
+                <p><strong>Puri Mega Hotel Ballroom</strong><br>Rawamangun, Jakarta Timur</p>
                 <p><i>"This will be an intimate event with arranged seats so everyone's got a spot!"</i></p>
                 <a href="#" class="btn-maps">View Maps</a>
             </div>
@@ -201,15 +201,15 @@
             <p>Your presence is truly the best gift.</p>
             
             <div class="info-box">
-                <p><strong>Bank BCA</strong></p>
-                <p>Acc name: Muhammad Fadly Hidayat</p>
-                <p>Acc number: 1234567890</p>
+                <p><strong>Bank BNI</strong></p>
+                <p>Acc name: Wirahilman</p>
+                <p>Acc number: </p>
             </div>
             
             <div class="info-box">
-                <p><strong>Bank Mandiri</strong></p>
-                <p>Acc name: Nadia Fitri Zafira</p>
-                <p>Acc number: 0987654321</p>
+                <p><strong>Bank BCA</strong></p>
+                <p>Acc name: Dina Yuliarty</p>
+                <p>Acc number: </p>
             </div>
         </div>
 
@@ -228,7 +228,7 @@
                 </div>
                 <div class="comment-item">
                     <span class="comment-name">Ezra & Vaya</span><br>
-                    <span>Bismillah. Happy wedding ya Fadly dan Nadia! Semoga samawa.</span>
+                    <span>Bismillah. Happy wedding ya ! Semoga samawa.</span>
                 </div>
             </div>
         </div>
@@ -244,36 +244,72 @@
 </div>
 
 <script>
-    // Fungsi untuk membuka undangan (animasi cover naik ke atas)
+   <script>
+    // FUNGSI MEMBUKA UNDANGAN
     function bukaUndangan() {
         document.getElementById('main-content').style.display = 'block';
         document.getElementById('cover').style.top = '-100vh';
-        
-        // Opsional: Hapus cover dari DOM setelah animasi selesai agar bisa scroll dengan lancar
-        setTimeout(() => {
-            document.getElementById('cover').style.display = 'none';
-        }, 1000);
+        setTimeout(() => { document.getElementById('cover').style.display = 'none'; }, 1000);
     }
-    const scriptURL = 'PASTE_URL_WEB_APP_KAMU_DISINI'; // <-- Ganti dengan URL dari Langkah 3!
+
+    // --- KODE SISTEM UCAPAN GOOGLE SHEETS ---
+    const scriptURL = 'PASTE_URL_WEB_APP_KAMU_DISINI'; // Ganti dengan URL kamu!
     const form = document.forms['form-ucapan'];
     const btnKirim = document.getElementById('btn-kirim');
+    const commentsArea = document.querySelector('.comments-area');
 
-    form.addEventListener('submit', e => {
-    e.preventDefault();
-    btnKirim.innerText = "Mengirim..."; // Ubah teks tombol saat loading
+    // 1. Fungsi untuk MENGAMBIL ucapan dari Google Sheets
+    function loadKomentar() {
+        commentsArea.innerHTML = '<div class="comment-item">Memuat ucapan...</div>';
         
-    fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+        fetch(scriptURL)
+            .then(response => response.json())
+            .then(data => {
+                commentsArea.innerHTML = ''; // Bersihkan tulisan "Memuat..."
+                
+                if(data.length === 0) {
+                    commentsArea.innerHTML = '<div class="comment-item">Belum ada ucapan. Jadilah yang pertama!</div>';
+                    return;
+                }
+
+                // Tampilkan data dari yang terbaru ke yang paling lama (dibalik)
+                data.reverse().forEach(item => {
+                    const commentDiv = document.createElement('div');
+                    commentDiv.className = 'comment-item';
+                    commentDiv.innerHTML = `
+                        <span class="comment-name">${item.nama}</span><br>
+                        <span>${item.ucapan}</span>
+                    `;
+                    commentsArea.appendChild(commentDiv);
+                });
+            })
+            .catch(error => {
+                console.error('Error!', error);
+                commentsArea.innerHTML = '<div class="comment-item">Gagal memuat ucapan.</div>';
+            });
+    }
+
+    // 2. Fungsi untuk MENGIRIM ucapan ke Google Sheets
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      btnKirim.innerText = "Mengirim..."; 
+      
+      fetch(scriptURL, { method: 'POST', body: new FormData(form)})
         .then(response => {
             alert("Terima kasih! Ucapanmu sudah terkirim.");
-            btnKirim.innerText = "Send"; // Kembalikan teks tombol
-            form.reset(); // Kosongkan form setelah terkirim
+            btnKirim.innerText = "Send";
+            form.reset(); // Kosongkan form input
+            loadKomentar(); // Langsung perbarui daftar ucapan secara otomatis!
         })
         .catch(error => {
-            console.error('Error!', error.message);
             alert("Maaf, terjadi kesalahan. Silakan coba lagi.");
             btnKirim.innerText = "Send";
-                    })
-        });
+        })
+    });
+
+    // Jalankan fungsi loadKomentar saat website pertama kali dibuka
+    document.addEventListener("DOMContentLoaded", loadKomentar);
+</script>
 </script>
 
 </body>
