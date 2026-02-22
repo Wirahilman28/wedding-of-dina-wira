@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Pernikahan - Nadia & Fadly</title>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Pengaturan Dasar */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2; /* Latar belakang luar abu-abu */
+            font-family: 'Nunito', sans-serif;
+            color: #5a5a5a;
+        }
+
+        /* Container utama agar terlihat seperti layar HP di komputer */
+        .mobile-container {
+            max-width: 414px;
+            margin: 0 auto;
+            background-color: #fcf7ca; /* Warna kuning pastel seperti di video */
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        /* Typography */
+        h1, h2, h3 {
+            font-family: 'Caveat', cursive;
+            color: #4a4a4a;
+            text-align: center;
+        }
+        
+        h1 { font-size: 3.5rem; margin-bottom: 5px; }
+        h2 { font-size: 2.5rem; margin: 10px 0; }
+        p { text-align: center; font-size: 0.9rem; line-height: 1.5; padding: 0 20px; }
+
+        /* Cover Screen */
+        #cover {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #fcf7ca;
+            position: absolute;
+            top: 0; left: 0; right: 0; z-index: 100;
+            transition: top 1s ease-in-out;
+        }
+
+        .btn-open {
+            background-color: #a3c4bc; /* Warna hijau pastel */
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-family: 'Nunito', sans-serif;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        /* Sections */
+        .section {
+            padding: 50px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Polaroid Image Style (Gaya Scrapbook) */
+        .polaroid {
+            background: white;
+            padding: 10px 10px 30px 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transform: rotate(-2deg);
+            margin: 20px 0;
+            max-width: 80%;
+        }
+        .polaroid img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .polaroid.right { transform: rotate(3deg); }
+
+        /* Kotak Detail (Buku Tabungan / Info Acara) */
+        .info-box {
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+            width: 85%;
+            text-align: center;
+            border: 1px dashed #ccc;
+        }
+
+        .btn-maps {
+            display: inline-block;
+            background-color: #a3c4bc;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        /* Form RSVP */
+        .rsvp-form input, .rsvp-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-family: 'Nunito', sans-serif;
+        }
+        .rsvp-form button {
+            width: 100%;
+            background-color: #d4a373; /* Warna coklat/tan pastel */
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .comments-area {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            height: 200px;
+            overflow-y: scroll;
+            width: 100%;
+            box-sizing: border-box;
+            font-size: 0.85rem;
+            text-align: left;
+        }
+        .comment-item { border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 10px; }
+        .comment-name { font-weight: bold; color: #a3c4bc; }
+
+    </style>
+</head>
+<body>
+
+<div class="mobile-container">
+
+    <div id="cover">
+        <div class="polaroid" style="margin-bottom: 30px;">
+            <img src="https://via.placeholder.com/300x300/a3c4bc/ffffff?text=Foto+Cover" alt="Cover Photo">
+        </div>
+        <h1>Nadia & Fadly</h1>
+        <p>Kepada Yth.<br>Bapak/Ibu/Saudara/i</p>
+        <button class="btn-open" onclick="bukaUndangan()">Open Invitation</button>
+    </div>
+
+    <div id="main-content" style="display: none;">
+        
+        <div class="section">
+            <p>"Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya..."</p>
+            <p><strong>(QS. Ar-Rum: 21)</strong></p>
+        </div>
+
+        <div class="section">
+            <h2>Bride & Groom</h2>
+            <div class="polaroid right">
+                <img src="https://via.placeholder.com/300x400/ffb6b9/ffffff?text=Foto+Nadia" alt="Bride">
+            </div>
+            <h3>Nadia Fitri Zafira</h3>
+            <p>Putri dari Bpk. Setiyo Nugroho & Ibu Dian Farida</p>
+
+            <div class="polaroid">
+                <img src="https://via.placeholder.com/300x400/81b29a/ffffff?text=Foto+Fadly" alt="Groom">
+            </div>
+            <h3>M. Fadly Hidayat</h3>
+            <p>Putra dari Bpk. Ilyas Hidayat & Ibu Hamidah</p>
+        </div>
+
+        <div class="section">
+            <h2>Save the date!</h2>
+            <div class="info-box">
+                <h3>20 / 09 / 2025</h3>
+                <p>10.00 - 13.00 WIB</p>
+                <p><strong>Open Gate: 09.30 WIB</strong></p>
+                <hr style="border:0; border-top:1px solid #ccc; margin: 15px 0;">
+                <p><strong>Layar Resto</strong><br>Manyar Sabrangan</p>
+                <p><i>"This will be an intimate event with arranged seats so everyone's got a spot!"</i></p>
+                <a href="#" class="btn-maps">View Maps</a>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Wedding Gift</h2>
+            <p>Your presence is truly the best gift.</p>
+            
+            <div class="info-box">
+                <p><strong>Bank BCA</strong></p>
+                <p>Acc name: Muhammad Fadly Hidayat</p>
+                <p>Acc number: 1234567890</p>
+            </div>
+            
+            <div class="info-box">
+                <p><strong>Bank Mandiri</strong></p>
+                <p>Acc name: Nadia Fitri Zafira</p>
+                <p>Acc number: 0987654321</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Send your wish</h2>
+            <form id="form-ucapan" class="info-box rsvp-form">
+                    <input type="text" name="nama" placeholder="Name" required>
+                    <textarea name="ucapan" rows="4" placeholder="Give your wish" required></textarea>
+                    <button type="submit" id="btn-kirim">Send</button>
+            </form>
+
+            <div class="comments-area">
+                <div class="comment-item">
+                    <span class="comment-name">Katsudoto</span><br>
+                    <span>Happy wedding! May your marriage be filled with all the right ingredients...</span>
+                </div>
+                <div class="comment-item">
+                    <span class="comment-name">Ezra & Vaya</span><br>
+                    <span>Bismillah. Happy wedding ya Fadly dan Nadia! Semoga samawa.</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="section" style="padding-bottom: 100px;">
+            <h1>Thank you!</h1>
+            <div class="polaroid right">
+                <img src="https://via.placeholder.com/300x200/f4a261/ffffff?text=Foto+Penutup" alt="Closing Photo">
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    // Fungsi untuk membuka undangan (animasi cover naik ke atas)
+    function bukaUndangan() {
+        document.getElementById('main-content').style.display = 'block';
+        document.getElementById('cover').style.top = '-100vh';
+        
+        // Opsional: Hapus cover dari DOM setelah animasi selesai agar bisa scroll dengan lancar
+        setTimeout(() => {
+            document.getElementById('cover').style.display = 'none';
+        }, 1000);
+    }
+    const scriptURL = 'PASTE_URL_WEB_APP_KAMU_DISINI'; // <-- Ganti dengan URL dari Langkah 3!
+    const form = document.forms['form-ucapan'];
+    const btnKirim = document.getElementById('btn-kirim');
+
+    form.addEventListener('submit', e => {
+    e.preventDefault();
+    btnKirim.innerText = "Mengirim..."; // Ubah teks tombol saat loading
+        
+    fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+        .then(response => {
+            alert("Terima kasih! Ucapanmu sudah terkirim.");
+            btnKirim.innerText = "Send"; // Kembalikan teks tombol
+            form.reset(); // Kosongkan form setelah terkirim
+        })
+        .catch(error => {
+            console.error('Error!', error.message);
+            alert("Maaf, terjadi kesalahan. Silakan coba lagi.");
+            btnKirim.innerText = "Send";
+                    })
+        });
+</script>
+
+</body>
+</html>
