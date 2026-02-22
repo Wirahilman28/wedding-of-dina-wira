@@ -10,16 +10,16 @@
         body {
             margin: 0;
             padding: 0;
-            background-color: #f2f2f2; /* Latar belakang luar abu-abu */
+            background-color: #f2f2f2;
             font-family: 'Nunito', sans-serif;
             color: #5a5a5a;
         }
 
-        /* Container utama agar terlihat seperti layar HP di komputer */
+        /* Container utama */
         .mobile-container {
             max-width: 414px;
             margin: 0 auto;
-            background-color: #fcf7ca; /* Warna kuning pastel seperti di video */
+            background-color: #fcf7ca;
             min-height: 100vh;
             position: relative;
             overflow-x: hidden;
@@ -51,7 +51,7 @@
         }
 
         .btn-open {
-            background-color: #a3c4bc; /* Warna hijau pastel */
+            background-color: #a3c4bc;
             color: white;
             border: none;
             padding: 12px 30px;
@@ -72,7 +72,7 @@
             align-items: center;
         }
 
-        /* Polaroid Image Style (Gaya Scrapbook) */
+        /* Polaroid Image Style */
         .polaroid {
             background: white;
             padding: 10px 10px 30px 10px;
@@ -88,7 +88,7 @@
         }
         .polaroid.right { transform: rotate(3deg); }
 
-        /* Kotak Detail (Buku Tabungan / Info Acara) */
+        /* Kotak Detail */
         .info-box {
             background: rgba(255, 255, 255, 0.7);
             border-radius: 15px;
@@ -122,7 +122,7 @@
         }
         .rsvp-form button {
             width: 100%;
-            background-color: #d4a373; /* Warna coklat/tan pastel */
+            background-color: #d4a373;
             color: white;
             border: none;
             padding: 12px;
@@ -171,13 +171,13 @@
         <div class="section">
             <h2>Bride & Groom</h2>
             <div class="polaroid right">
-                <img src="https://via.placeholder.com/300x400/ffb6b9/ffffff?text=Foto+Nadia" alt="Bride">
+                <img src="https://via.placeholder.com/300x400/ffb6b9/ffffff?text=Foto+Dina" alt="Bride">
             </div>
             <h3>Dina Yuliarty</h3>
             <p>Putri dari Bpk. R. Sugiarto & Ibu Lasmiati</p>
 
             <div class="polaroid">
-                <img src="https://via.placeholder.com/300x400/81b29a/ffffff?text=Foto+Fadly" alt="Groom">
+                <img src="https://via.placeholder.com/300x400/81b29a/ffffff?text=Foto+Wira" alt="Groom">
             </div>
             <h3>Wirahilman</h3>
             <p>Putra dari Bpk. Ferry Djohansyah P. & Ibu Ratnasari Sulistiani</p>
@@ -244,35 +244,69 @@
 </div>
 
 <script>
-   <script>
-    // FUNGSI MEMBUKA UNDANGAN
+    // --- SISTEM PLAYLIST MUSIK ---
+    const playlist = [
+        "lagu1.mp3", 
+        "lagu2.mp3", 
+        "lagu3.mp3"
+    ];
+    let currentTrack = 0;
+    const bgMusic = new Audio(playlist[currentTrack]);
+
+    // Otomatis putar lagu selanjutnya kalau lagu saat ini habis
+    bgMusic.addEventListener('ended', function() {
+        currentTrack++;
+        if (currentTrack >= playlist.length) {
+            currentTrack = 0; 
+        }
+        bgMusic.src = playlist[currentTrack];
+        bgMusic.play();
+    });
+
+    // --- FUNGSI MEMBUKA UNDANGAN ---
     function bukaUndangan() {
         document.getElementById('main-content').style.display = 'block';
         document.getElementById('cover').style.top = '-100vh';
-        setTimeout(() => { document.getElementById('cover').style.display = 'none'; }, 1000);
+        
+        // Mulai putar musik saat tombol diklik
+        bgMusic.play();
+        
+        setTimeout(() => { 
+            document.getElementById('cover').style.display = 'none'; 
+        }, 1000);
     }
 
+    // --- FITUR PINTAR: SENSOR LAYAR UNTUK MUSIK ---
+    document.addEventListener("visibilitychange", function() {
+        if (document.hidden) {
+            bgMusic.pause();
+        } else {
+            // Cek apakah undangan sudah dibuka sebelum melanjutkan lagu
+            if (document.getElementById('main-content').style.display === 'block') {
+                bgMusic.play();
+            }
+        }
+    });
+
     // --- KODE SISTEM UCAPAN GOOGLE SHEETS ---
-    const scriptURL = 'PASTE_URL_WEB_APP_KAMU_DISINI'; // Ganti dengan URL kamu!
+    const scriptURL = 'PASTE_URL_WEB_APP_KAMU_DISINI'; // <-- JANGAN LUPA GANTI INI DENGAN URL GOOGLE SCRIPT-MU!
     const form = document.forms['form-ucapan'];
     const btnKirim = document.getElementById('btn-kirim');
     const commentsArea = document.querySelector('.comments-area');
 
-    // 1. Fungsi untuk MENGAMBIL ucapan dari Google Sheets
     function loadKomentar() {
         commentsArea.innerHTML = '<div class="comment-item">Memuat ucapan...</div>';
         
         fetch(scriptURL)
             .then(response => response.json())
             .then(data => {
-                commentsArea.innerHTML = ''; // Bersihkan tulisan "Memuat..."
+                commentsArea.innerHTML = ''; 
                 
                 if(data.length === 0) {
                     commentsArea.innerHTML = '<div class="comment-item">Belum ada ucapan. Jadilah yang pertama!</div>';
                     return;
                 }
 
-                // Tampilkan data dari yang terbaru ke yang paling lama (dibalik)
                 data.reverse().forEach(item => {
                     const commentDiv = document.createElement('div');
                     commentDiv.className = 'comment-item';
@@ -289,7 +323,6 @@
             });
     }
 
-    // 2. Fungsi untuk MENGIRIM ucapan ke Google Sheets
     form.addEventListener('submit', e => {
       e.preventDefault();
       btnKirim.innerText = "Mengirim..."; 
@@ -298,8 +331,8 @@
         .then(response => {
             alert("Terima kasih! Ucapanmu sudah terkirim.");
             btnKirim.innerText = "Send";
-            form.reset(); // Kosongkan form input
-            loadKomentar(); // Langsung perbarui daftar ucapan secara otomatis!
+            form.reset(); 
+            loadKomentar(); 
         })
         .catch(error => {
             alert("Maaf, terjadi kesalahan. Silakan coba lagi.");
@@ -307,9 +340,7 @@
         })
     });
 
-    // Jalankan fungsi loadKomentar saat website pertama kali dibuka
     document.addEventListener("DOMContentLoaded", loadKomentar);
-</script>
 </script>
 
 </body>
